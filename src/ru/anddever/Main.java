@@ -15,20 +15,11 @@ public class Main {
         while (k < args.length - 1) {
             String arg = args[k];
             switch (arg) {
-                case "-mode":
-                    mode = args[k + 1];
-                    break;
-                case "-key":
-                    key = Integer.parseInt(args[k + 1]);
-                    break;
-                case "-data":
-                    data = args[k + 1];
-                    break;
-                case "-out":
-                    outFileName = args[k + 1];
-                    break;
-                case "-in":
-                    inFileName = args[k + 1];
+                case "-mode" -> mode = args[k + 1];
+                case "-key" -> key = Integer.parseInt(args[k + 1]);
+                case "-data" -> data = args[k + 1];
+                case "-out" -> outFileName = args[k + 1];
+                case "-in" -> inFileName = args[k + 1];
             }
             k += 2;
         }
