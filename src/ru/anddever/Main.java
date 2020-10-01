@@ -10,8 +10,10 @@ import java.nio.file.Paths;
 public class Main {
     public static void main(String[] args) {
         int key = 0;
-        String mode = "enc", data = "", outFileName = "", inFileName = "";
+        String mode = "enc", data = "", outFileName = "", inFileName = "", alg = "shift";
         int k = 0;
+        AlgorithmCreator creator = new AlgorithmCreator();
+        EncryptionAlgorithmMethod method;
         while (k < args.length - 1) {
             String arg = args[k];
             switch (arg) {
@@ -20,8 +22,17 @@ public class Main {
                 case "-data" -> data = args[k + 1];
                 case "-out" -> outFileName = args[k + 1];
                 case "-in" -> inFileName = args[k + 1];
+                case "-alg" -> alg = args[k + 1];
             }
             k += 2;
+        }
+        switch (alg) {
+            case "shift" -> method = creator.createEncryptionAlgorithm(AlgorithmTypes.SHIFTING);
+            case "unicode" -> method = creator.createEncryptionAlgorithm(AlgorithmTypes.UNICODE);
+            default -> {
+                System.out.println("You passed unsupported algorithm, we'll use shifting instead");
+                method = creator.createEncryptionAlgorithm(AlgorithmTypes.SHIFTING);
+            }
         }
         if (data.isEmpty() && !inFileName.isEmpty()) {
             try {
@@ -34,38 +45,21 @@ public class Main {
             File outFile = new File(outFileName);
             if ("enc".equals(mode))
                 try (PrintWriter writer = new PrintWriter(outFile)) {
-                    writer.print(shiftStringBy(data, key));
+                    writer.print(method.encrypt(data, key));
                 } catch (FileNotFoundException e) {
                     System.out.println("Error " + e.getMessage());
                 }
             if ("dec".equals(mode))
                 try (PrintWriter writer = new PrintWriter(outFile)) {
-                    writer.print(shiftStringBy(data, -1 * key));
+                    writer.print(method.decrypt(data, -1 * key));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
         } else {
             if ("enc".equals(mode))
-                System.out.println(shiftStringBy(data, key));
+                System.out.println(method.encrypt(data, key));
             if ("dec".equals(mode))
-                System.out.println(shiftStringBy(data, -1 * key));
+                System.out.println(method.decrypt(data, -1 * key));
         }
-    }
-
-    public static String shiftStringBy(String str, int shift) {
-        StringBuilder result = new StringBuilder();
-        for (char c : str.toCharArray()) {
-            c = shiftCharBy(c, shift);
-            result.append(c);
-        }
-        return result.toString();
-    }
-
-    public static char shiftCharBy(char c, int shift) {
-        char result = (char) (c + shift);
-        if (result > '~') {
-            result -= 26;
-        }
-        return result;
     }
 }
