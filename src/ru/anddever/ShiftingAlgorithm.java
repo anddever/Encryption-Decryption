@@ -3,13 +3,13 @@ package ru.anddever;
 public class ShiftingAlgorithm implements EncryptionAlgorithmMethod {
 
     @Override
-    public void encrypt(String data, int key) {
-        shiftStringBy(data, key);
+    public String encrypt(String data, int key) {
+        return shiftStringBy(data, key);
     }
 
     @Override
-    public void decrypt(String data, int key) {
-        shiftStringBy(data, key * -1);
+    public String decrypt(String data, int key) {
+        return shiftStringBy(data, key * -1);
     }
 
     private String shiftStringBy(String str, int shift) {
