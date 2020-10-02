@@ -7,7 +7,6 @@ public class AlgorithmCreator extends EncryptionAlgorithmFactory {
         return switch (type) {
             case SHIFTING -> new ShiftingAlgorithm();
             case UNICODE -> new UnicodeAlgorithm();
-            default -> null;
         };
     }
 }
