@@ -22,10 +22,32 @@ public class ShiftingAlgorithm implements EncryptionAlgorithmMethod {
     }
 
     private char shiftCharBy(char c, int shift) {
+        char result;
         if (Character.isAlphabetic(c)) {
-            char result = (char) (c + shift);
-            if (result > '~') {
-                result -= 26;
+            if (shift >= 0) {
+                if (Character.isUpperCase(c)) {
+                    result = (char) (c + shift);
+                    if (result > 'Z') {
+                        result -= 26;
+                    }
+                } else {
+                    result = (char) (c + shift);
+                    if (result > 'z') {
+                        result -= 26;
+                    }
+                }
+            } else {
+                if (Character.isUpperCase(c)) {
+                    result = (char) (c + shift);
+                    if (result < 'A') {
+                        result += 26;
+                    }
+                } else {
+                    result = (char) (c + shift);
+                    if (result < 'a') {
+                        result += 26;
+                    }
+                }
             }
             return result;
         }
