@@ -51,7 +51,7 @@ public class Main {
                 }
             if ("dec".equals(mode))
                 try (PrintWriter writer = new PrintWriter(outFile)) {
-                    writer.print(method.decrypt(data, -1 * key));
+                    writer.print(method.decrypt(data, key));
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 }
@@ -59,7 +59,7 @@ public class Main {
             if ("enc".equals(mode))
                 System.out.println(method.encrypt(data, key));
             if ("dec".equals(mode))
-                System.out.println(method.decrypt(data, -1 * key));
+                System.out.println(method.decrypt(data, key));
         }
     }
 }
